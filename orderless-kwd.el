@@ -63,6 +63,7 @@
     (val ,#'orderless-kwd-value)
     (dif ,#'orderless-kwd-modified t)
     (key ,#'orderless-kwd-key t)
+    (ro  ,#'orderless-kwd-read-only t)
     (off ,#'orderless-kwd-off t)
     (on  ,#'orderless-kwd-on t))
   "Keyword dispatcher alist.
@@ -166,15 +167,32 @@ as a flag and does not require input."
     (when-let ((buf (orderless-kwd--get-buffer str)))
       (buffer-modified-p buf))))
 
-(defun orderless-kwd-mode (pred regexp)
-  "Match buffer mode name against PRED and REGEXP."
+(defun orderless-kwd-read-only (_)
+  "Match read-only buffers."
   (lambda (str)
-    (when-let ((buf (orderless-kwd--get-buffer str))
-               (mode (buffer-local-value 'major-mode buf)))
-      (or (orderless--match-p pred regexp (symbol-name mode))
-          (orderless--match-p
-           pred regexp
-           (format-mode-line (buffer-local-value 'mode-name buf)))))))
+    (when-let ((buf (orderless-kwd--get-buffer str)))
+      (buffer-local-value 'buffer-read-only buf))))
+
+(defun orderless-kwd-mode (pred regexp)
+  "Match buffer mode or bookmark type against PRED and REGEXP."
+  (declare-function bookmark-prop-get "bookmark")
+  (lambda (str)
+    (if-let ((buf (orderless-kwd--get-buffer str)))
+        (when-let ((mode (buffer-local-value 'major-mode buf)))
+          (or (orderless--match-p pred regexp (symbol-name mode))
+              (orderless--match-p pred regexp
+                                  (format-mode-line
+                                   (buffer-local-value 'mode-name buf)))))
+      (when-let ((name (if-let ((cat (get-text-property 0 'multi-category str)))
+                           (and (eq (car cat) 'bookmark) (cdr cat))
+                         str))
+                 (bm (assoc name (bound-and-true-p bookmark-alist)))
+                 (handler (or (bookmark-prop-get bm 'handler)
+                              'bookmark-default-handler))
+                 ((symbolp handler)))
+        (orderless--match-p pred regexp
+                            (or (get handler 'bookmark-handler-type)
+                                (symbol-name handler)))))))
 
 (defun orderless-kwd-directory (pred regexp)
   "Match `default-directory' against PRED and REGEXP."
