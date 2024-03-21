@@ -3,9 +3,9 @@
 ;; Copyright (C) 2021-2024 Free Software Foundation, Inc.
 
 ;; Author: Omar Antolín Camarena <omar@matem.unam.mx>
-;; Maintainer: Omar Antolín Camarena <omar@matem.unam.mx>
+;; Maintainer: Omar Antolín Camarena <omar@matem.unam.mx>, Daniel Mendler <mail@daniel-mendler.de>
 ;; Keywords: extensions
-;; Version: 1.0
+;; Version: 1.1
 ;; Homepage: https://github.com/oantolin/orderless
 ;; Package-Requires: ((emacs "27.1"))
 
