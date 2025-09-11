@@ -58,7 +58,8 @@
   │   :ensure t
   │   :custom
   │   (completion-styles '(orderless basic))
-  │   (completion-category-overrides '((file (styles basic partial-completion)))))
+  │   (completion-category-overrides '((file (styles partial-completion))))
+  │   (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
   └────
 
   Alternatively, put `orderless.el' somewhere on your `load-path', and
@@ -67,7 +68,8 @@
   ┌────
   │ (require 'orderless)
   │ (setq completion-styles '(orderless basic)
-  │       completion-category-overrides '((file (styles basic partial-completion))))
+  │       completion-category-overrides '((file (styles partial-completion)))
+  │       completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion behaves like substring
   └────
 
   The `basic' completion style is specified as fallback in addition to
