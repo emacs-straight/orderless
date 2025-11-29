@@ -3,9 +3,6 @@
                               ━━━━━━━━━━━
 
 
-
-
-
 1 Overview
 ══════════
 
@@ -255,8 +252,8 @@
   │ 
   │ (setq orderless-matching-styles '(orderless-regexp)
   │       orderless-style-dispatchers '(first-initialism
-  │ 				    flex-if-twiddle
-  │ 				    not-if-bang))
+  │                                     flex-if-twiddle
+  │                                     not-if-bang))
   └────
 
 
@@ -301,12 +298,12 @@
   ┌────
   │ (orderless-define-completion-style orderless+initialism
   │   (orderless-matching-styles '(orderless-initialism
-  │ 			       orderless-literal
-  │ 			       orderless-regexp)))
+  │                                orderless-literal
+  │                                orderless-regexp)))
   │ (setq completion-category-overrides
   │       '((command (styles orderless+initialism))
-  │ 	(symbol (styles orderless+initialism))
-  │ 	(variable (styles orderless+initialism))))
+  │         (symbol (styles orderless+initialism))
+  │         (variable (styles orderless+initialism))))
   └────
 
   Note that in order for the `orderless+initialism' style to kick-in
@@ -371,7 +368,7 @@
   │   "Components match literally for the rest of the session."
   │   (interactive)
   │   (setq-local orderless-matching-styles '(orderless-literal)
-  │ 	      orderless-style-dispatchers nil))
+  │               orderless-style-dispatchers nil))
   │ 
   │ (define-key minibuffer-local-completion-map (kbd "C-l")
   │   #'my/match-components-literally)
