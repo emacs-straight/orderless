@@ -1,4 +1,4 @@
-This is docQsq625.info, produced by makeinfo version 7.1.1 from
+This is orderless.info, produced by makeinfo version 7.1.1 from
 orderless.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docQsq625.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: orderless.info,  Node: Top,  Next: Overview,  Up: (dir)
 
 Orderless
 *********
@@ -45,11 +45,11 @@ Related packages
 
 * Ivy and Helm::
 * Prescient::
-* Restricting to current matches in Icicles, Ido and Ivy: Restricting to current matches in Icicles Ido and Ivy.
+* Restricting to current matches in Icicles, Ido and Ivy::
 
 
 
-File: docQsq625.info,  Node: Overview,  Next: Customization,  Prev: Top,  Up: Top
+File: orderless.info,  Node: Overview,  Next: Customization,  Prev: Top,  Up: Top
 
 1 Overview
 **********
@@ -66,10 +66,7 @@ front-end that provides a completion UI.  Any completion style can be
 used with the default Emacs completion UI (sometimes called minibuffer
 tab completion), with the built-in Icomplete package (which is similar
 to the more well-known Ido Mode), the icomplete-vertical variant from
-Emacs 28 (see the external icomplete-vertical
-(https://github.com/oantolin/icomplete-vertical) package to get that
-functionality on earlier versions of Emacs), or with some third party
-minibuffer completion frameworks such as Mct
+Emacs 28, or with minibuffer completion frameworks such as Mct
 (https://gitlab.com/protesilaos/mct) or Vertico
 (https://github.com/minad/vertico).
 
@@ -96,10 +93,10 @@ exclusively, set both variables to ‘nil’, but be aware that
    With a bit of effort, it might still be possible to use ‘orderless’
 with other completion UIs, even if those UIs don't support the standard
 Emacs completion styles.  Currently there is support for Ivy
-(https://github.com/abo-abo/swiper) (see below).  Also, while Company
-does support completion styles directly, pressing ‘SPC’ takes you out of
-completion, so comfortably using ‘orderless’ with it takes a bit of
-configuration (see below).
+(https://github.com/abo-abo/swiper), as documented below.  Also, while
+Company does support completion styles directly, pressing ‘SPC’ takes
+you out of completion, so comfortably using ‘orderless’ with it takes a
+bit of configuration (see below).
 
    If you use ELPA or MELPA, the easiest way to install ‘orderless’ is
 via ‘package-install’.  If you use ‘use-package’, you can use:
@@ -108,14 +105,16 @@ via ‘package-install’.  If you use ‘use-package’, you can use:
        :ensure t
        :custom
        (completion-styles '(orderless basic))
-       (completion-category-overrides '((file (styles basic partial-completion)))))
+       (completion-category-overrides '((file (styles partial-completion))))
+       (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
    Alternatively, put ‘orderless.el’ somewhere on your ‘load-path’, and
 use the following configuration:
 
      (require 'orderless)
      (setq completion-styles '(orderless basic)
-           completion-category-overrides '((file (styles basic partial-completion))))
+           completion-category-overrides '((file (styles partial-completion)))
+           completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion behaves like substring
 
    The ‘basic’ completion style is specified as fallback in addition to
 ‘orderless’ in order to ensure that completion commands which rely on
@@ -131,7 +130,7 @@ completion and partial paths, e.g., ‘/u/s/l’ for ‘/usr/share/local’.
    Bug reports are highly welcome and appreciated!
 
 
-File: docQsq625.info,  Node: Customization,  Next: Integration with other completion UIs,  Prev: Overview,  Up: Top
+File: orderless.info,  Node: Customization,  Next: Integration with other completion UIs,  Prev: Overview,  Up: Top
 
 2 Customization
 ***************
@@ -146,7 +145,7 @@ File: docQsq625.info,  Node: Customization,  Next: Integration with other comple
 * Interactively changing the configuration::
 
 
-File: docQsq625.info,  Node: Component matching styles,  Next: Component separator regexp,  Up: Customization
+File: orderless.info,  Node: Component matching styles,  Next: Component separator regexp,  Up: Customization
 
 2.1 Component matching styles
 =============================
@@ -212,7 +211,7 @@ regexp styles.
 * Style dispatchers::
 
 
-File: docQsq625.info,  Node: Style modifiers,  Next: Style dispatchers,  Up: Component matching styles
+File: orderless.info,  Node: Style modifiers,  Next: Style dispatchers,  Up: Component matching styles
 
 2.1.1 Style modifiers
 ---------------------
@@ -231,7 +230,7 @@ orderless-not
      which do not match the pattern.
 
 
-File: docQsq625.info,  Node: Style dispatchers,  Prev: Style modifiers,  Up: Component matching styles
+File: orderless.info,  Node: Style dispatchers,  Prev: Style modifiers,  Up: Component matching styles
 
 2.1.2 Style dispatchers
 -----------------------
@@ -311,7 +310,7 @@ following setup:
                                          not-if-bang))
 
 
-File: docQsq625.info,  Node: Component separator regexp,  Next: Defining custom orderless styles,  Prev: Component matching styles,  Up: Customization
+File: orderless.info,  Node: Component separator regexp,  Next: Defining custom orderless styles,  Prev: Component matching styles,  Up: Customization
 
 2.2 Component separator regexp
 ==============================
@@ -336,7 +335,7 @@ different separator for the components, bind
 ‘orderless-component-separator’ in a ‘let’ form.
 
 
-File: docQsq625.info,  Node: Defining custom orderless styles,  Next: Faces for component matches,  Prev: Component separator regexp,  Up: Customization
+File: orderless.info,  Node: Defining custom orderless styles,  Next: Faces for component matches,  Prev: Component separator regexp,  Up: Customization
 
 2.3 Defining custom orderless styles
 ====================================
@@ -373,7 +372,7 @@ the above example configuration, or other similarly fine-grained control
 of completion styles according to completion category.
 
 
-File: docQsq625.info,  Node: Faces for component matches,  Next: Pattern compiler,  Prev: Defining custom orderless styles,  Up: Customization
+File: orderless.info,  Node: Faces for component matches,  Next: Pattern compiler,  Prev: Defining custom orderless styles,  Up: Customization
 
 2.4 Faces for component matches
 ===============================
@@ -390,7 +389,7 @@ matches.  You will only see these particular faces when the ‘orderless’
 completion is the one that ends up being used, of course.
 
 
-File: docQsq625.info,  Node: Pattern compiler,  Next: Interactively changing the configuration,  Prev: Faces for component matches,  Up: Customization
+File: orderless.info,  Node: Pattern compiler,  Next: Interactively changing the configuration,  Prev: Faces for component matches,  Up: Customization
 
 2.5 Pattern compiler
 ====================
@@ -403,7 +402,7 @@ Under special circumstances it may be useful to implement a custom
 pattern compiler by advising ‘orderless-compile’.
 
 
-File: docQsq625.info,  Node: Interactively changing the configuration,  Prev: Pattern compiler,  Up: Customization
+File: orderless.info,  Node: Interactively changing the configuration,  Prev: Pattern compiler,  Up: Customization
 
 2.6 Interactively changing the configuration
 ============================================
@@ -435,7 +434,7 @@ components match literally.  You could use the following code:
 the values are only used for that minibuffer completion session.
 
 
-File: docQsq625.info,  Node: Integration with other completion UIs,  Next: Related packages,  Prev: Customization,  Up: Top
+File: orderless.info,  Node: Integration with other completion UIs,  Next: Related packages,  Prev: Customization,  Up: Top
 
 3 Integration with other completion UIs
 ***************************************
@@ -457,7 +456,7 @@ from your effort.  The functions ‘orderless-filter’,
 * Company::
 
 
-File: docQsq625.info,  Node: Ivy,  Next: Helm,  Up: Integration with other completion UIs
+File: orderless.info,  Node: Ivy,  Next: Helm,  Up: Integration with other completion UIs
 
 3.1 Ivy
 =======
@@ -468,7 +467,7 @@ To use ‘orderless’ from Ivy add this to your Ivy configuration:
      (add-to-list 'ivy-highlight-functions-alist '(orderless-ivy-re-builder . orderless-ivy-highlight))
 
 
-File: docQsq625.info,  Node: Helm,  Next: Company,  Prev: Ivy,  Up: Integration with other completion UIs
+File: orderless.info,  Node: Helm,  Next: Company,  Prev: Ivy,  Up: Integration with other completion UIs
 
 3.2 Helm
 ========
@@ -480,7 +479,7 @@ Helm configuration:
      (setq helm-completion-style 'emacs)
 
 
-File: docQsq625.info,  Node: Company,  Prev: Helm,  Up: Integration with other completion UIs
+File: orderless.info,  Node: Company,  Prev: Helm,  Up: Integration with other completion UIs
 
 3.3 Company
 ===========
@@ -528,7 +527,7 @@ This means that the ‘company-capf’ backend will automatically use
      (advice-add 'company-capf :around #'company-completion-styles)
 
 
-File: docQsq625.info,  Node: Related packages,  Prev: Integration with other completion UIs,  Up: Top
+File: orderless.info,  Node: Related packages,  Prev: Integration with other completion UIs,  Up: Top
 
 4 Related packages
 ******************
@@ -537,10 +536,10 @@ File: docQsq625.info,  Node: Related packages,  Prev: Integration with other com
 
 * Ivy and Helm::
 * Prescient::
-* Restricting to current matches in Icicles, Ido and Ivy: Restricting to current matches in Icicles Ido and Ivy.
+* Restricting to current matches in Icicles, Ido and Ivy::
 
 
-File: docQsq625.info,  Node: Ivy and Helm,  Next: Prescient,  Up: Related packages
+File: orderless.info,  Node: Ivy and Helm,  Next: Prescient,  Up: Related packages
 
 4.1 Ivy and Helm
 ================
@@ -572,7 +571,7 @@ configure Icomplete to use it as follows:
 ‘helm-mode’ rather than Icomplete.)
 
 
-File: docQsq625.info,  Node: Prescient,  Next: Restricting to current matches in Icicles Ido and Ivy,  Prev: Ivy and Helm,  Up: Related packages
+File: orderless.info,  Node: Prescient,  Next: Restricting to current matches in Icicles, Ido and Ivy,  Prev: Ivy and Helm,  Up: Related packages
 
 4.2 Prescient
 =============
@@ -589,7 +588,7 @@ sorting of candidates, while Orderless leaves that up to the candidate
 source and the completion UI.
 
 
-File: docQsq625.info,  Node: Restricting to current matches in Icicles Ido and Ivy,  Prev: Prescient,  Up: Related packages
+File: orderless.info,  Node: Restricting to current matches in Icicles, Ido and Ivy,  Prev: Prescient,  Up: Related packages
 
 4.3 Restricting to current matches in Icicles, Ido and Ivy
 ==========================================================
@@ -615,24 +614,24 @@ out of order matching!
 
 Tag Table:
 Node: Top237
-Node: Overview975
-Node: Customization5026
-Node: Component matching styles5384
-Node: Style modifiers7675
-Node: Style dispatchers8364
-Node: Component separator regexp12021
-Node: Defining custom orderless styles13258
-Node: Faces for component matches15148
-Node: Pattern compiler15952
-Node: Interactively changing the configuration16543
-Node: Integration with other completion UIs18004
-Node: Ivy18790
-Node: Helm19142
-Node: Company19486
-Node: Related packages21457
-Node: Ivy and Helm21755
-Node: Prescient23085
-Node: Restricting to current matches in Icicles Ido and Ivy23912
+Node: Overview921
+Node: Customization5000
+Node: Component matching styles5358
+Node: Style modifiers7649
+Node: Style dispatchers8338
+Node: Component separator regexp11995
+Node: Defining custom orderless styles13232
+Node: Faces for component matches15122
+Node: Pattern compiler15926
+Node: Interactively changing the configuration16517
+Node: Integration with other completion UIs17978
+Node: Ivy18764
+Node: Helm19116
+Node: Company19460
+Node: Related packages21431
+Node: Ivy and Helm21675
+Node: Prescient23005
+Node: Restricting to current matches in Icicles, Ido and Ivy23835
 
 End Tag Table
 
