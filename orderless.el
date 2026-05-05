@@ -93,17 +93,20 @@
     (t :foreground "yellow"))
   "Face for matches of components numbered 3 mod 4.")
 
-(defcustom orderless-component-separator #'orderless-escapable-split-on-space
+(defcustom orderless-component-separator #'orderless-escapable-split
   "Component separators for orderless completion.
 This can either be a string, which is passed to `split-string',
 or a function of a single string argument."
   :type `(choice (const :tag "Spaces" " +")
                  (const :tag "Spaces, hyphen or slash" " +\\|[-/]")
                  (const :tag "Escapable space"
-                        ,#'orderless-escapable-split-on-space)
+                        ,#'orderless-escapable-split)
+                 (const :tag "Escapable hyphen"
+                        (,#'orderless-escapable-split ?-))
                  (const :tag "Quotable spaces" ,#'split-string-and-unquote)
                  (regexp :tag "Custom regexp")
-                 (function :tag "Custom function")))
+                 (function :tag "Custom function")
+                 (sexp :tag "Function plus trailing arguments")))
 
 (defcustom orderless-match-faces
   [orderless-match-face-0
@@ -362,15 +365,21 @@ converted to a list of regexps according to the value of
 
 ;;; Compiling patterns to lists of regexps
 
-(defun orderless-escapable-split-on-space (string)
-  "Split STRING on spaces, which can be escaped with backslash."
-  (mapcar
-   (lambda (piece) (replace-regexp-in-string (string 0) " " piece))
-   (split-string (replace-regexp-in-string
-                  "\\\\\\\\\\|\\\\ "
-                  (lambda (x) (if (equal x "\\ ") (string 0) x))
-                  string 'fixedcase 'literal)
-                 " +")))
+(defun orderless-escapable-split (string &optional sep)
+  "Split STRING on SEP character, which can be escaped with backslash.
+SEP defaults to space."
+  (let* ((sep (string (or sep ?\s)))
+         (quo (regexp-quote sep)))
+    (mapcar
+     (lambda (x) (string-replace "\0" sep x))
+     (split-string (replace-regexp-in-string
+                    (concat "\\\\\\\\\\|\\\\" quo)
+                    (lambda (x) (if (equal x "\\\\") x "\0"))
+                    string 'fixedcase 'literal)
+                   quo t))))
+
+(define-obsolete-function-alias 'orderless-escapable-split-on-space
+  #'orderless-escapable-split "1.6")
 
 (defun orderless--dispatch (dispatchers default string index total)
   "Run DISPATCHERS to compute matching styles for STRING.
@@ -457,9 +466,10 @@ string as argument."
   (unless dispatchers (setq dispatchers orderless-style-dispatchers))
   (cl-loop
    with predicate = nil
-   with temp = (if (functionp orderless-component-separator)
-                   (funcall orderless-component-separator pattern)
-                 (split-string pattern orderless-component-separator))
+   with sep = orderless-component-separator
+   with temp = (cond ((functionp sep) (funcall sep pattern))
+                     ((consp sep) (apply (car sep) pattern (cdr sep)))
+                     (t (split-string pattern sep)))
    with components = (if (equal (car (last temp)) "") (nbutlast temp) temp)
    with total = (length components)
    for comp in components and index from 0
