@@ -1,4 +1,4 @@
-This is orderless.info, produced by makeinfo version 7.2 from
+This is orderless.info, produced by makeinfo version 7.1.1 from
 orderless.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -46,6 +46,7 @@ Related packages
 * Ivy and Helm::
 * Prescient::
 * Restricting to current matches in Icicles, Ido and Ivy::
+
 
 
 File: orderless.info,  Node: Overview,  Next: Customization,  Prev: Top,  Up: Top
@@ -609,32 +610,32 @@ out of order matching!
      the effect of out of order matching without using
      ‘ivy--regex-ignore-order’.
 
+
 
 Tag Table:
-Node: Top235
-Node: Overview918
-Node: Customization4997
-Node: Component matching styles5355
-Node: Style modifiers7646
-Node: Style dispatchers8335
-Node: Component separator regexp11992
-Node: Defining custom orderless styles13220
-Node: Faces for component matches15110
-Node: Pattern compiler15914
-Node: Interactively changing the configuration16505
-Node: Integration with other completion UIs17966
-Node: Ivy18752
-Node: Helm19104
-Node: Company19448
-Node: Related packages21419
-Node: Ivy and Helm21663
-Node: Prescient22993
-Node: Restricting to current matches in Icicles, Ido and Ivy23823
+Node: Top237
+Node: Overview921
+Node: Customization5000
+Node: Component matching styles5358
+Node: Style modifiers7649
+Node: Style dispatchers8338
+Node: Component separator regexp11995
+Node: Defining custom orderless styles13223
+Node: Faces for component matches15113
+Node: Pattern compiler15917
+Node: Interactively changing the configuration16508
+Node: Integration with other completion UIs17969
+Node: Ivy18755
+Node: Helm19107
+Node: Company19451
+Node: Related packages21422
+Node: Ivy and Helm21666
+Node: Prescient22996
+Node: Restricting to current matches in Icicles, Ido and Ivy23826
 
 End Tag Table
 
 
 Local Variables:
 coding: utf-8
-Info-documentlanguage: en
 End:
